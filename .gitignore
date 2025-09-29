@@ -1,0 +1,34 @@
+
+# Python
+__pycache__/
+*.pyc
+.flaskenv
+.env
+venv/
+flaskenv/
+
+# Node.js / React
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp
+.pnp.js
+
+# Build outputs
+/build
+/dist
+/coverage
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+# Environment files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
