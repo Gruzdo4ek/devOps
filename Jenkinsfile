@@ -37,8 +37,14 @@ pipeline {
                 bat '''
                     cd backend
                     flaskenv\\Scripts\\pyinstaller --onefile --name calculator-app app.py
+                    if exist "dist\\calculator-app.exe" (
+                        echo Запуск собранного приложения...
+                        start "" "dist\\calculator-app.exe"
+                    ) else (
+                        echo Ошибка: .exe файл не найден!
+                        exit 1
+                    )
                 '''
-                // Результат: backend/dist/calculator-app.exe
             }
         }
 
@@ -54,9 +60,11 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                echo 'Deploying to server...'
-                // Например:
-                // bat 'xcopy /E /Y frontend\\build \\server\\wwwroot\\'
+
+                echo 'Сборка и тесты пройдены. Приложение готово к деплою.'
+                echo 'Backend executable: backend/dist/calculator-app.exe'
+                echo 'Frontend build: frontend/build/'
+
             }
         }
     }
