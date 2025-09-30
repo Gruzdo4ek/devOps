@@ -37,6 +37,13 @@ pipeline {
                 bat '''
                     cd backend
                     flaskenv\\Scripts\\pyinstaller --onefile --name calculator-app app.py
+                    if exist "dist\\calculator-app.exe" (
+                        echo Запуск собранного приложения...
+                        start "" "dist\\calculator-app.exe"
+                    ) else (
+                        echo Ошибка: .exe файл не найден!
+                        exit 1
+                    )
                 '''
             }
         }
