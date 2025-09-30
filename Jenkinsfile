@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // Укажите ваш GitHub токен для push в main (создайте его в GitHub → Settings → Developer settings → Personal Access Token)
-        GITHUB_TOKEN = credentials('github-token')  // Имя учётной записи в Jenkins
+        GITHUB_TOKEN = credentials('cfcbf74e-513e-42a2-a3c1-1ae081b86051')  // Имя учётной записи в Jenkins
     }
 
     stages {
