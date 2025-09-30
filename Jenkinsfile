@@ -32,15 +32,6 @@ pipeline {
             }
         }
 
-        stage('Build Backend Executable (.exe)') {
-            steps {
-               bat '''
-                    cd backend
-                    flaskenv\\Scripts\\pyinstaller --onefile --name calculator-app app.py
-                '''
-            }
-        }
-
         stage('Test') {
             steps {
                 bat '''
@@ -48,6 +39,19 @@ pipeline {
                     flaskenv\\Scripts\\python.exe -m pytest
                 '''
                 bat 'cd frontend && npm test -- --passWithNoTests'
+            }
+        }
+        
+        stage('Build Backend Executable (.exe)') {
+            steps {
+                bat '''
+                    cd backend
+                    REM Удаляем старую сборку, чтобы избежать конфликтов
+                    if exist "dist" rmdir /s /q "dist"
+                    if exist "build" rmdir /s /q "build"
+                    REM Собираем заново
+                    flaskenv\\Scripts\\pyinstaller --clean --onefile --name calculator-app app.py
+                '''
             }
         }
 
