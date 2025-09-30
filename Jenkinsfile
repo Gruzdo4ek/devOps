@@ -43,7 +43,6 @@ pipeline {
                     cd backend
                     flaskenv\\Scripts\\pyinstaller --onefile --name calculator-app app.py
                 '''
-                // Результат: backend/dist/calculator-app.exe
             }
         }
 
@@ -89,7 +88,6 @@ pipeline {
                 echo '✅ Сборка и тесты пройдены. Приложение готово к деплою.'
                 echo 'Backend executable: backend/dist/calculator-app.exe'
                 echo 'Frontend build: frontend/build/'
-                // Здесь можно добавить копирование на сервер, архивацию и т.д.
             }
         }
     }
