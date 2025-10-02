@@ -4,6 +4,7 @@
 
 **Для запуска backend**
 *   cd backend
+*   flaskenv\Scripts\activate
 *   python app.py
 
 **Для запуска frontend**
