@@ -1,15 +1,14 @@
 version: '3.8'
 
 services:
+services:
   backend:
-    image: localhost:5000/calculator-backend:latest
+    image: localhost:5001/calculator-backend:latest  # ← было 5000
     ports:
-      - "5001:5000"  # хост:контейнер
-    networks:
-      - app-network
+      - "5000:5000"  # хост:контейнер (Flask внутри контейнера слушает 5000)
 
   frontend:
-    image: localhost:5000/calculator-frontend:latest
+    image: localhost:5001/calculator-frontend:latest  # ← было 5000
     ports:
       - "80:80"
     depends_on:
