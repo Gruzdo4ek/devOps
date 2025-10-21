@@ -56,7 +56,7 @@ pipeline {
 
         stage('Smoke Test') {
             steps {
-                bat 'curl -f http://localhost:5000/ || exit 1'
+                bat 'curl -f http://localhost:5000/ | findstr "Hello from Flask!" || exit 1'
                 bat 'curl -f http://localhost/ | findstr "Sum Calculator" || exit 1'
                 echo '✅ Smoke-тесты пройдены'
             }
