@@ -4,7 +4,7 @@ services:
   backend:
     image: localhost:5000/calculator-backend:latest
     ports:
-      - "5000:5000"
+      - "5001:5000"  # хост:контейнер
     networks:
       - app-network
 

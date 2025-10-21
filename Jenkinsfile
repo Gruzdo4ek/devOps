@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        REGISTRY = "localhost:5000"
+        REGISTRY = "localhost:5001"
         BACKEND_IMAGE = "${REGISTRY}/calculator-backend:latest"
         FRONTEND_IMAGE = "${REGISTRY}/calculator-frontend:latest"
     }
