@@ -14,7 +14,7 @@ function App() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://172.20.10.4:5000/calculate_sum', { values: Object.values(values) });
+      const response = await axios.post('/calculate_sum', { values: Object.values(values) });
       setTotalSum(response.data.total_sum);
     } catch (error) {
       console.error(error);
