@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-services:
   backend:
     image: localhost:5001/calculator-backend:latest  # ← было 5000
     ports:
