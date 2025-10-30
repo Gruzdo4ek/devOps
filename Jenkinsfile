@@ -50,7 +50,7 @@ pipeline {
                     docker-compose down --remove-orphans
                     docker-compose up -d
                 '''
-                echo '✅ Приложение запущено! Доступно по http://localhost'
+                echo 'Приложение запущено! Доступно по http://localhost'
             }
         }
 
@@ -58,7 +58,7 @@ pipeline {
             steps {
                 bat 'curl -f http://localhost:5000/ | findstr "Hello from Flask!" || exit 1'
                 bat 'curl -f http://localhost/ || exit 1'
-                echo '✅ Smoke-тесты пройдены'
+                echo 'Smoke-тесты пройдены'
             }
         }
     }
