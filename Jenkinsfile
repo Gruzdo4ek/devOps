@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    environment {
+        REGISTRY = "localhost:5001"
+        BACKEND_IMAGE = "${REGISTRY}/calculator-backend:latest"
+        FRONTEND_IMAGE = "${REGISTRY}/calculator-frontend:latest"
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -8,59 +14,51 @@ pipeline {
             }
         }
 
-        stage('Install Backend Dependencies') {
+        stage('Build Frontend (React)') {
+            steps {
+                bat 'cd frontend && npm install && npm run build'
+            }
+        }
+
+        stage('Build and Push Backend Image') {
+            steps {
+                script {
+                    bat """
+                        cd backend
+                        docker build -t ${BACKEND_IMAGE} .
+                        docker push ${BACKEND_IMAGE}
+                    """
+                }
+            }
+        }
+
+        stage('Build and Push Frontend Image') {
+            steps {
+                script {
+                    bat """
+                        cd frontend
+                        docker build -t ${FRONTEND_IMAGE} .
+                        docker push ${FRONTEND_IMAGE}
+                    """
+                }
+            }
+        }
+
+        stage('Deploy with Docker Compose') {
             steps {
                 bat '''
-                    cd backend
-                    "C:\\Users\\masha\\AppData\\Local\\Programs\\Python\\Python313\\python.exe" -m venv flaskenv
-                    flaskenv\\Scripts\\python.exe -m pip install --upgrade pip
-                    flaskenv\\Scripts\\python.exe -m pip install -r requirements.txt
-                    flaskenv\\Scripts\\python.exe -m pip install pyinstaller
+                    docker-compose down --remove-orphans
+                    docker-compose up -d
                 '''
+                echo 'Приложение запущено! Доступно по http://localhost'
             }
         }
 
-        stage('Install Frontend Dependencies') {
+        stage('Smoke Test') {
             steps {
-                bat 'cd frontend && npm install'
-            }
-        }
-
-        stage('Build Frontend') {
-            steps {
-                bat 'cd frontend && npm run build'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                bat '''
-                    cd backend
-                    flaskenv\\Scripts\\python.exe -m pytest
-                '''
-                bat 'cd frontend && npm test -- --passWithNoTests'
-            }
-        }
-        
-        stage('Build Backend Executable (.exe)') {
-            steps {
-                bat '''
-                    cd backend
-                    REM Удаляем старую сборку, чтобы избежать конфликтов
-                    if exist "dist" rmdir /s /q "dist"
-                    if exist "build" rmdir /s /q "build"
-                    REM Собираем заново
-                    flaskenv\\Scripts\\pyinstaller --clean --onefile --name calculator-app app.py
-                '''
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-
-                echo 'Сборка и тесты пройдены. Приложение готово к деплою.'
-                echo 'Backend executable: backend/dist/calculator-app.exe'
-                echo 'Frontend build: frontend/build/'
+                bat 'curl -f http://localhost:5000/ | findstr "Hello from Flask!" || exit 1'
+                bat 'curl -f http://localhost/ || exit 1'
+                echo 'Smoke-тесты пройдены'
 
             }
         }

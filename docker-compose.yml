@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  backend:
+    image: localhost:5001/calculator-backend:latest
+    ports:
+      - "5000:5000"  # хост:контейнер (Flask внутри контейнера слушает 5000)
+    networks:
+      - app-network
+
+  frontend:
+    image: localhost:5001/calculator-frontend:latest
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
