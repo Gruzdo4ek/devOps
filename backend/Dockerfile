@@ -12,6 +12,6 @@ COPY . .
 # Экспонируем порт
 EXPOSE 5000
 
-# Запускаем Flask в production-режиме (без debug!)
+# Запускаем Flask в production-режиме
 ENV FLASK_ENV=production
 CMD ["python", "app.py"]
