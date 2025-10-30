@@ -59,6 +59,7 @@ pipeline {
                 bat 'curl -f http://localhost:5000/ | findstr "Hello from Flask!" || exit 1'
                 bat 'curl -f http://localhost/ || exit 1'
                 echo 'Smoke-тесты пройдены'
+
             }
         }
     }
